@@ -1,0 +1,9 @@
+spring:
+  profile:
+    default: test
+  application:
+    name: "demo"
+  myapp:
+    privateKeyPath: "files/private_key_encrypted_dev.pem"
+    publicKeyPath: "files/public_key_dev.pem"
+    keyPassword: secret
