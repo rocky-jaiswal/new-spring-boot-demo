@@ -19,7 +19,7 @@ class AuthCommand(
     fun register(registrationRequest: UserRegistrationRequest): UserDTO {
         return success(registrationRequest)
             .flatMap { validRequest ->
-                throwIfExists(authService.userExists(validRequest.email))
+                throwIfExists(validRequest.email) { authService.userExists(validRequest.email) }
             }.flatMap {
                 runWithSafety { authService.register(registrationRequest.email, registrationRequest.password) }
             }.getOrThrow()
@@ -36,22 +36,21 @@ class AuthCommand(
                 }
             }
             .flatMap { userId ->
-                val token =
+                runWithSafety {
                     jwt.signJWT(
                         "$userId",
                         audience = "app",
                         expirationMinutes = 60,
                         customClaims = null,
                     )
-                success(token)
+                }
             }.getOrThrow()
     }
 
-    private fun throwIfExists(userId: UUID?): Result<UUID?> {
-        return if (userId == null) {
-            success(userId)
+    private fun <T> throwIfExists(value: T, block: () -> T): Result<T> {
+        return if (block() == null) {
+            success(value)
         } else {
-            // User already exists and cannot be created again
             failure(ResponseStatusException(HttpStatus.BAD_REQUEST, "user already exists"))
         }
     }

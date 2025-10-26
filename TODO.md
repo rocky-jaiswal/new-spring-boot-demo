@@ -18,12 +18,12 @@
 - Change health-check to also query DB ✅
 - Exception handling & reporting (40x vs 50x) ✅
 - Request validation ✅
-- User Registration / Login
-- Basic entity CRUD
+- User Registration / Login ✅
+- Basic entity CRUD ✅
+- Setup with command class + Result monad ✅
 - Custom middleware / filters
 - Request context (e.g. context.logger, context.userId)
 - Custom AoP (Logging for controller endpoints)
-- Setup with command class + Result monad
 
 
 - JSON serialization (Date etc., underscore etc.)
@@ -36,8 +36,8 @@
 - Different loggers for local, test, production
 
 
-- Unit tests
-- Log SQL in dev and test
+- Unit tests ✅
+- Log SQL in dev and test but not in production
 - Integration tests (test containers with reuse)
 - Test commands with integration tests
 
